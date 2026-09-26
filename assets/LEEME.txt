@@ -1,0 +1,19 @@
+Colocá acá tu foto con el nombre exacto: foto.jpg
+
+Ruta esperada por el juego: assets/foto.jpg
+
+No hace falta recortarla ni editarla: el juego la ajusta automáticamente
+al tamaño del tablero (comportamiento equivalente a "object-fit: cover"),
+la centra y la recorta si la proporción no coincide.
+
+Si abrís index.html directamente como archivo (file://) en algunos
+navegadores, la carga de la imagen local puede fallar por políticas de
+seguridad del navegador. Si eso pasa, corré un servidor local simple
+desde la carpeta del proyecto, por ejemplo:
+
+  python3 -m http.server 8000
+
+y abrí http://localhost:8000 en el navegador.
+
+Mientras no exista assets/foto.jpg, el juego igual funciona: muestra un
+degradé de relleno en lugar de la foto.

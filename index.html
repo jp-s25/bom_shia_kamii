@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Kami´s Tetris Game</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="app">
+
+    <!-- PANTALLA INICIAL -->
+    <section id="screen-start" class="screen active">
+      <div class="start-content">
+        <h1 class="title">Kami´s Tetris Game</h1>
+        <p class="subtitle">Espero puedas armarlo.</p>
+        <button id="btn-play" class="btn btn-primary">JUGAR</button>
+      </div>
+    </section>
+
+    <!-- PANTALLA DE JUEGO -->
+    <section id="screen-game" class="screen">
+      <header class="hud">
+        <div class="hud-item hud-progress">
+          <span id="progress-count">0</span><span class="hud-sep">/</span><span id="progress-total">160</span>
+        </div>
+        <div class="hud-item hud-next">
+          <canvas id="next-canvas" width="64" height="64"></canvas>
+        </div>
+      </header>
+
+      <div class="board-wrap">
+        <canvas id="board-canvas"></canvas>
+      </div>
+
+      <div class="controls">
+        <button class="ctrl ctrl-left" id="btn-left" aria-label="Pa el otro allá">&#8592;</button>
+        <button class="ctrl ctrl-rotate" id="btn-rotate" aria-label="Dar vuelta">&#8635;</button>
+        <button class="ctrl ctrl-down" id="btn-down" aria-label="Pa abajo">&#8595;</button>
+        <button class="ctrl ctrl-right" id="btn-right" aria-label="Pa allá">&#8594;</button>
+      </div>
+    </section>
+
+    <!-- PANTALLA FINAL: VICTORIA -->
+    <section id="screen-win" class="screen">
+      <div class="win-content">
+        <div class="win-photo-wrap">
+          <canvas id="win-canvas"></canvas>
+        </div>
+        <h2 class="win-title">Feliz cumple Kamiii!</h2>
+        <p class="win-subtitle">Lo lograsteee. (perdon es la unica foto q tengo)</p>
+        <button id="btn-restart-win" class="btn btn-primary">JUGAR DE NUEVO</button>
+      </div>
+    </section>
+
+    <!-- PANTALLA FINAL: SIN ESPACIO -->
+    <section id="screen-lose" class="screen">
+      <div class="lose-content">
+        <h2 class="lose-title">SIN ESPACIO</h2>
+        <p class="lose-subtitle">Las piezas ya no entran. Casi JAJAJA.</p>
+        <button id="btn-restart-lose" class="btn btn-primary">JUGAR DE NUEVO</button>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+:root{
+  --bg: #190021;
+  --surface: #131318;
+  --surface-2: #1c1c23;
+  --text: #ececf1;
+  --muted: #7c7c88;
+  --accent: #c85cd9;
+  --danger: #d9705c;
+  --radius: 10px;
+  color-scheme: dark;
+}
+
+*{ box-sizing: border-box; }
+
+html, body{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+#app{
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.screen{
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fade-in 0.5s ease;
+}
+.screen.active{ display: flex; }
+
+@keyframes fade-in{
+  from{ opacity: 0; }
+  to{ opacity: 1; }
+}
+
+/* ---------- Botones ---------- */
+.btn{
+  border: none;
+  border-radius: var(--radius);
+  padding: 14px 36px;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+.btn:active{ transform: scale(0.96); }
+.btn-primary{
+  background: var(--accent);
+  color: #1a1408;
+}
+.btn-primary:hover{ opacity: 0.92; }
+
+/* ---------- Pantalla inicial ---------- */
+.start-content{
+  text-align: center;
+  max-width: 320px;
+}
+.title{
+  font-size: 28px;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  margin: 0 0 14px;
+}
+.subtitle{
+  color: var(--muted);
+  font-size: 15px;
+  margin: 0 0 36px;
+}
+
+/* ---------- HUD ---------- */
+.hud{
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 4px 14px;
+  flex-shrink: 0;
+}
+.hud-progress{
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+#progress-count{ color: var(--text); font-weight: 600; }
+.hud-sep{ margin: 0 3px; }
+.hud-next{
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#next-canvas{ width: 32px; height: 32px; }
+
+/* ---------- Tablero ---------- */
+#screen-game{
+  justify-content: flex-start;
+  padding-top: max(20px, env(safe-area-inset-top));
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+}
+.board-wrap{
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+}
+#board-canvas{
+  background: var(--surface);
+  border-radius: 6px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  max-height: 100%;
+}
+
+/* ---------- Controles táctiles ---------- */
+.controls{
+  display: grid;
+  grid-template-columns: 64px 64px 64px 64px;
+  gap: 12px;
+  margin-top: 18px;
+  flex-shrink: 0;
+}
+.ctrl{
+  width: 64px;
+  height: 56px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.12s ease, transform 0.1s ease;
+}
+.ctrl:active{
+  background: #26262f;
+  transform: scale(0.94);
+}
+.ctrl-rotate{ color: var(--accent); }
+
+/* ---------- Pantalla de victoria ---------- */
+.win-content{
+  text-align: center;
+  width: 100%;
+  max-width: 420px;
+  animation: win-in 0.7s ease;
+}
+@keyframes win-in{
+  from{ opacity: 0; transform: scale(0.97); }
+  to{ opacity: 1; transform: scale(1); }
+}
+.win-photo-wrap{
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+  margin-bottom: 26px;
+}
+#win-canvas{
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.win-title{
+  font-size: 22px;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+.win-subtitle{
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0 0 30px;
+  font-style: italic;
+}
+
+/* ---------- Pantalla de derrota ---------- */
+.lose-content{ text-align: center; max-width: 300px; }
+.lose-title{
+  font-size: 20px;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  margin: 0 0 10px;
+  color: var(--danger);
+}
+.lose-subtitle{
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0 0 30px;
+}
+
+/* Pantallas chicas / apaisadas */
+@media (max-height: 620px){
+  .controls{ margin-top: 10px; }
+  .ctrl{ height: 46px; }
+}
