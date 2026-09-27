@@ -638,17 +638,58 @@
 
   function bindHold(el, fn, repeatMs) {
     let interval = null;
+    let activePointerId = null;
+
+    const clear = () => {
+      if (interval) {
+        clearInterval(interval);
+        interval = null;
+      }
+      activePointerId = null;
+    };
+
     const start = (e) => {
       e.preventDefault();
+      // Por si quedó un intervalo colgado de un toque anterior que no
+      // llegó a soltarse bien (típico si el dedo se arrastra fuera del
+      // botón en mobile): lo cortamos antes de arrancar uno nuevo.
+      clear();
+      if (e.pointerId !== undefined) activePointerId = e.pointerId;
       fn();
       interval = setInterval(fn, repeatMs);
     };
-    const stop = () => { clearInterval(interval); interval = null; };
-    el.addEventListener("touchstart", start, { passive: false });
-    el.addEventListener("mousedown", start);
-    ["touchend", "touchcancel", "mouseup", "mouseleave"].forEach((ev) =>
-      el.addEventListener(ev, stop)
-    );
+
+    const stop = (e) => {
+      if (e && e.pointerId !== undefined && activePointerId !== null && e.pointerId !== activePointerId) {
+        return;
+      }
+      clear();
+    };
+
+    if (window.PointerEvent) {
+      // Pointer Events unifica touch/mouse en un solo flujo de eventos y
+      // evita el problema clásico de mobile donde touchend no llega a
+      // dispararse sobre el botón si el dedo se corrió un poco.
+      el.addEventListener("pointerdown", start);
+      el.addEventListener("pointerup", stop);
+      el.addEventListener("pointercancel", stop);
+      el.addEventListener("pointerleave", stop);
+    } else {
+      el.addEventListener("touchstart", start, { passive: false });
+      el.addEventListener("touchend", stop);
+      el.addEventListener("touchcancel", stop);
+      el.addEventListener("mousedown", start);
+      el.addEventListener("mouseup", stop);
+      el.addEventListener("mouseleave", stop);
+    }
+
+    // Red de seguridad extra: si la pantalla se bloquea, cambia de app,
+    // o el navegador oculta la pestaña con el dedo todavía "apretado",
+    // no queremos que el intervalo se quede corriendo en segundo plano.
+    window.addEventListener("blur", clear);
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) clear();
+    });
   }
 
   bindHold(document.getElementById("btn-left"), () => tryMove(-1, 0), 130);
